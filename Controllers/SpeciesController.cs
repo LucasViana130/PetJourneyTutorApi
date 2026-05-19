@@ -15,6 +15,9 @@ public class SpeciesController : ControllerBase
         _context = context;
     }
 
+    /// <summary>
+    /// Lista todas as espécies pré-cadastradas.
+    /// </summary>
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
@@ -25,6 +28,9 @@ public class SpeciesController : ControllerBase
         return Ok(species);
     }
 
+    /// <summary>
+    /// Busca uma espécie pelo identificador.
+    /// </summary>
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id)
     {
@@ -36,6 +42,9 @@ public class SpeciesController : ControllerBase
         return Ok(species);
     }
 
+    /// <summary>
+    /// Lista as raças vinculadas a uma espécie.
+    /// </summary>
     [HttpGet("{id}/racas")]
     public async Task<IActionResult> GetBreedsBySpecies(int id)
     {

@@ -15,6 +15,9 @@ public class TutorsController : ControllerBase
         _tutorService = tutorService;
     }
 
+    /// <summary>
+    /// Lista todos os tutores cadastrados.
+    /// </summary>
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Tutor>>> GetTutors()
     {
@@ -22,6 +25,9 @@ public class TutorsController : ControllerBase
         return Ok(tutors);
     }
 
+    /// <summary>
+    /// Busca um tutor pelo identificador.
+    /// </summary>
     [HttpGet("{id:int}")]
     public async Task<ActionResult<Tutor>> GetTutorById(int id)
     {
@@ -33,6 +39,9 @@ public class TutorsController : ControllerBase
         return Ok(tutor);
     }
 
+    /// <summary>
+    /// Lista os pets vinculados a um tutor.
+    /// </summary>
     [HttpGet("{id:int}/pets")]
     public async Task<ActionResult<IEnumerable<Pet>>> GetTutorPets(int id)
     {
@@ -45,6 +54,9 @@ public class TutorsController : ControllerBase
     }
 
 
+    /// <summary>
+    /// Lista as clínicas associadas aos pets de um tutor.
+    /// </summary>
     [HttpGet("{id:int}/clinicas")]
     public async Task<ActionResult<IEnumerable<Clinic>>> GetTutorClinics(int id)
     {
@@ -56,6 +68,9 @@ public class TutorsController : ControllerBase
         return Ok(clinics);
     }
 
+    /// <summary>
+    /// Cria um novo tutor.
+    /// </summary>
     [HttpPost]
     public async Task<ActionResult<Tutor>> CreateTutor(Tutor tutor)
     {
@@ -67,6 +82,9 @@ public class TutorsController : ControllerBase
         return CreatedAtAction(nameof(GetTutorById), new { id = result.Tutor!.IdTutor }, result.Tutor);
     }
 
+    /// <summary>
+    /// Atualiza os dados de um tutor.
+    /// </summary>
     [HttpPut("{id:int}")]
     public async Task<IActionResult> UpdateTutor(int id, Tutor tutor)
     {
@@ -83,6 +101,9 @@ public class TutorsController : ControllerBase
         return NoContent();
     }
 
+    /// <summary>
+    /// Afila todos os pets de um tutor a uma clínica.
+    /// </summary>
     [HttpPut("{tutorId:int}/clinica/{clinicaId:int}")]
     public async Task<IActionResult> LinkTutorToClinic(int tutorId, int clinicaId)
     {
@@ -94,6 +115,9 @@ public class TutorsController : ControllerBase
         return NoContent();
     }
 
+    /// <summary>
+    /// Remove a afiliação clínica dos pets de um tutor.
+    /// </summary>
     [HttpDelete("{tutorId:int}/clinica")]
     public async Task<IActionResult> UnlinkTutorFromClinic(int tutorId)
     {
@@ -105,6 +129,9 @@ public class TutorsController : ControllerBase
         return NoContent();
     }
 
+    /// <summary>
+    /// Remove um tutor.
+    /// </summary>
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteTutor(int id)
     {

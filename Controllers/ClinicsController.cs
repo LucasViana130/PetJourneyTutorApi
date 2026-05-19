@@ -15,6 +15,9 @@ public class ClinicsController : ControllerBase
         _clinicService = clinicService;
     }
 
+    /// <summary>
+    /// Lista todas as clínicas.
+    /// </summary>
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Clinic>>> GetClinics()
     {
@@ -22,6 +25,9 @@ public class ClinicsController : ControllerBase
         return Ok(clinics);
     }
 
+    /// <summary>
+    /// Busca uma clínica pelo identificador.
+    /// </summary>
     [HttpGet("{id:int}")]
     public async Task<ActionResult<Clinic>> GetClinicById(int id)
     {

@@ -15,6 +15,9 @@ public class PetsController : ControllerBase
         _petService = petService;
     }
 
+    /// <summary>
+    /// Lista todos os pets cadastrados.
+    /// </summary>
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Pet>>> GetPets()
     {
@@ -22,6 +25,9 @@ public class PetsController : ControllerBase
         return Ok(pets);
     }
 
+    /// <summary>
+    /// Busca um pet pelo identificador.
+    /// </summary>
     [HttpGet("{id:int}")]
     public async Task<ActionResult<Pet>> GetPetById(int id)
     {
@@ -33,6 +39,9 @@ public class PetsController : ControllerBase
         return Ok(pet);
     }
 
+    /// <summary>
+    /// Lista os lembretes vinculados a um pet.
+    /// </summary>
     [HttpGet("{petId:int}/lembretes")]
     public async Task<ActionResult<IEnumerable<Reminder>>> GetPetReminders(int petId)
     {
@@ -44,6 +53,9 @@ public class PetsController : ControllerBase
         return Ok(reminders);
     }
 
+    /// <summary>
+    /// Lista os lembretes vinculados a um pet.
+    /// </summary>
     [HttpGet("{petId:int}/timeline")]
     public async Task<ActionResult<IEnumerable<TimelineItem>>> GetPetTimeline(int petId, [FromQuery] int mes, [FromQuery] int ano)
     {
@@ -60,6 +72,9 @@ public class PetsController : ControllerBase
         return Ok(result.Timeline);
     }
 
+    /// <summary>
+    /// Cria um novo pet vinculado a um tutor.
+    /// </summary>
     [HttpPost]
     public async Task<ActionResult<Pet>> CreatePet(Pet pet)
     {
@@ -71,6 +86,9 @@ public class PetsController : ControllerBase
         return CreatedAtAction(nameof(GetPetById), new { id = result.Pet!.IdPet }, result.Pet);
     }
 
+    /// <summary>
+    /// Atualiza os dados de um pet.
+    /// </summary>
     [HttpPut("{id:int}")]
     public async Task<IActionResult> UpdatePet(int id, Pet pet)
     {
@@ -87,6 +105,9 @@ public class PetsController : ControllerBase
         return NoContent();
     }
 
+    /// <summary>
+    /// Remove um pet.
+    /// </summary>
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeletePet(int id)
     {

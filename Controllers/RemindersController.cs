@@ -15,6 +15,9 @@ public class RemindersController : ControllerBase
         _reminderService = reminderService;
     }
 
+    /// <summary>
+    /// Lista todos os lembretes cadastrados.
+    /// </summary>
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Reminder>>> GetReminders()
     {
@@ -22,6 +25,9 @@ public class RemindersController : ControllerBase
         return Ok(reminders);
     }
 
+    /// <summary>
+    /// Busca um lembrete pelo identificador.
+    /// </summary>
     [HttpGet("{id:int}")]
     public async Task<ActionResult<Reminder>> GetReminderById(int id)
     {
@@ -33,6 +39,9 @@ public class RemindersController : ControllerBase
         return Ok(reminder);
     }
 
+    /// <summary>
+    /// Cria um novo lembrete para um pet.
+    /// </summary>
     [HttpPost]
     public async Task<ActionResult<Reminder>> CreateReminder(Reminder reminder)
     {
@@ -44,6 +53,9 @@ public class RemindersController : ControllerBase
         return CreatedAtAction(nameof(GetReminderById), new { id = result.Reminder!.IdLembrete }, result.Reminder);
     }
 
+    /// <summary>
+    /// Atualiza os dados de um lembrete.
+    /// </summary>
     [HttpPut("{id:int}")]
     public async Task<IActionResult> UpdateReminder(int id, Reminder reminder)
     {
@@ -60,6 +72,9 @@ public class RemindersController : ControllerBase
         return NoContent();
     }
 
+    /// <summary>
+    /// Remove um lembrete pelo identificador.
+    /// </summary>
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteReminder(int id)
     {

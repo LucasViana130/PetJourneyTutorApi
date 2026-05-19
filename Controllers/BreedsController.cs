@@ -15,6 +15,9 @@ public class BreedsController : ControllerBase
         _context = context;
     }
 
+    /// <summary>
+    /// Lista todas as raças.
+    /// </summary>
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
@@ -25,6 +28,9 @@ public class BreedsController : ControllerBase
         return Ok(breeds);
     }
 
+    /// <summary>
+    /// Busca uma raça pelo identificador.
+    /// </summary>
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id)
     {
