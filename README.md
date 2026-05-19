@@ -450,5 +450,5 @@ O Swagger permite testar todos os endpoints diretamente pelo navegador.
 
 Além disso, os controllers possuem comentários XML para melhorar a descrição de cada rota na interface do Swagger.
 
-Se preferir testar no postman o script tambem esta disponivel no repositório com todos os testes pronto!
+Se preferir testar no postman o script tambem esta disponivel no repositório com todos os testes prontos!
 ---
