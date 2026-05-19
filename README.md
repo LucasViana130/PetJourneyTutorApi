@@ -1,6 +1,6 @@
 # PetJourney Tutor API
 
-API RESTful desenvolvida para a área do tutor no sistema **PetJourney**.
+API REST desenvolvida para a área do tutor no sistema **PetJourney**.
 
 ---
 
