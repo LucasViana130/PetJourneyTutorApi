@@ -9,34 +9,48 @@ public class AppDbContext : DbContext
     {
     }
 
-    public DbSet<Tutor> Tutors { get; set; }
-    public DbSet<Pet> Pets { get; set; }
-    public DbSet<Reminder> Reminders { get; set; }
-    public DbSet<Clinic> Clinics { get; set; }
-    public DbSet<Species> Species { get; set; }
-    public DbSet<Breed> Breeds { get; set; }
+    public DbSet<Tutor> Tutors => Set<Tutor>();
+    public DbSet<Pet> Pets => Set<Pet>();
+    public DbSet<Reminder> Reminders => Set<Reminder>();
+    public DbSet<Clinic> Clinics => Set<Clinic>();
+    public DbSet<Species> Species => Set<Species>();
+    public DbSet<Breed> Breeds => Set<Breed>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        base.OnModelCreating(modelBuilder);
+        modelBuilder.Entity<Tutor>(entity =>
+        {
+            entity.HasKey(t => t.IdTutor);
+            entity.HasIndex(t => t.DsEmail).IsUnique();
+            entity.Property(t => t.DtCadastro).HasDefaultValueSql("SYSDATE");
+            entity.Property(t => t.DsPlano).HasDefaultValue("FREE");
+        });
 
-        modelBuilder.Entity<Tutor>().ToTable("TBTUTOR");
-        modelBuilder.Entity<Pet>().ToTable("TBPET");
-        modelBuilder.Entity<Reminder>().ToTable("TBLEMBRETE");
-        modelBuilder.Entity<Clinic>().ToTable("TBCLINICA");
-        modelBuilder.Entity<Species>().ToTable("TBESPECIE");
-        modelBuilder.Entity<Breed>().ToTable("TBRACA");
+        modelBuilder.Entity<Pet>(entity =>
+        {
+            entity.HasKey(p => p.IdPet);
+            entity.Property(p => p.IdEspecie).IsRequired();
+        });
 
-        modelBuilder.Entity<Tutor>()
-            .HasIndex(t => t.DsEmail)
-            .IsUnique();
+        modelBuilder.Entity<Reminder>(entity =>
+        {
+            entity.HasKey(r => r.IdLembrete);
+            entity.Property(r => r.DsStatus).HasDefaultValue("PENDENTE");
+        });
 
-        modelBuilder.Entity<Reminder>()
-            .Property(r => r.DsStatus)
-            .HasDefaultValue("PENDENTE");
+        modelBuilder.Entity<Clinic>(entity =>
+        {
+            entity.HasKey(c => c.IdClinica);
+        });
 
-        modelBuilder.Entity<Tutor>()
-            .Property(t => t.DtCadastro)
-            .HasDefaultValueSql("SYSDATE");
+        modelBuilder.Entity<Species>(entity =>
+        {
+            entity.HasKey(e => e.IdEspecie);
+        });
+
+        modelBuilder.Entity<Breed>(entity =>
+        {
+            entity.HasKey(r => r.IdRaca);
+        });
     }
 }
