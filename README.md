@@ -1,25 +1,12 @@
 # PetJourney Tutor API
 
-API RESTful desenvolvida em **ASP.NET Core Web API** para a área do tutor no sistema **PetJourney / Clyvo Vet**.
-
-O objetivo desta API é permitir que o tutor gerencie seus dados, cadastre seus pets, acompanhe lembretes de cuidado e, opcionalmente, vincule seus pets a uma clínica veterinária.
-
-Este projeto complementa o sistema principal desenvolvido em Java, ficando responsável apenas pelas funcionalidades voltadas ao tutor.
+API RESTful desenvolvida para a área do tutor no sistema **PetJourney**.
 
 ---
 
 ## Objetivo do projeto
 
-A API foi criada para atender aos requisitos da disciplina **Advanced Business Development with .NET**, utilizando:
-
-* CRUD completo das principais entidades do tutor;
-* rotas parametrizadas;
-* documentação com Swagger/OpenAPI;
-* Entity Framework Core;
-* DbContext;
-* migrations;
-* integração com Oracle Database;
-* organização em camadas simples com Controllers, Services, Models e Data.
+O objetivo desta API é permitir que o tutor gerencie seus dados, cadastre seus pets, acompanhe lembretes de cuidado e, opcionalmente, vincule seus pets a uma clínica veterinária.
 
 ---
 
@@ -51,7 +38,6 @@ A clínica não possui CRUD completo neste projeto, pois o gerenciamento complet
 * Swagger / OpenAPI
 * Migrations
 * LINQ
-* Postman
 
 ---
 
@@ -96,8 +82,6 @@ PetJourneyTutorApi
 
 ## Arquitetura utilizada
 
-O projeto usa uma estrutura simples e adequada ao nível da disciplina:
-
 ```text
 Controller -> Service -> AppDbContext -> Oracle Database
 ```
@@ -130,17 +114,8 @@ Responsável pela comunicação com o banco Oracle usando Entity Framework Core.
 
 ---
 
-## DER do projeto
 
-O projeto utiliza um recorte do DER geral do sistema PetJourney, focando apenas na parte do tutor.
-
-> Adicione a imagem do DER na pasta `Docs` com o nome `der-petjourney.png`.
-
-```md
-![DER PetJourney](Docs/der-petjourney.png)
-```
-
-### Tabelas utilizadas nesta API
+### Tabelas do banco utilizadas nesta API
 
 * `TBTUTOR`
 * `TBPET`
@@ -225,10 +200,6 @@ No arquivo `appsettings.json`, configure a connection string:
   }
 }
 ```
-
-> Não deixe usuário e senha reais no GitHub.
-
----
 
 ## Como executar o projeto
 
@@ -433,24 +404,7 @@ GET /api/pets/{petId}/timeline?mes=5&ano=2026
 ]
 ```
 
----
-
-## Ordem recomendada de testes
-
-1. Cadastrar espécies e raças no banco.
-2. Cadastrar uma clínica.
-3. Cadastrar um tutor.
-4. Cadastrar um pet usando `idTutor` e `idEspecie`.
-5. Cadastrar um lembrete usando `idPet`.
-6. Testar a listagem de pets do tutor.
-7. Testar a listagem de lembretes do pet.
-8. Testar a timeline mensal.
-9. Testar afiliação do tutor a uma clínica.
-10. Testar PUT e DELETE.
-
----
-
-## Script básico de dados
+## Script básico de dados(insira estes dados antes de testar!)
 
 ```sql
 INSERT INTO TBESPECIE (NMESPECIE) VALUES ('Cachorro');
@@ -477,23 +431,6 @@ COMMIT;
 
 ---
 
-## Testes com Postman
-
-O projeto pode ser testado pelo Swagger ou por uma collection do Postman.
-
-A collection deve conter testes para:
-
-* tutores;
-* pets;
-* lembretes;
-* clínicas;
-* espécies;
-* raças;
-* timeline;
-* cenários de erro, como tutor inexistente, espécie inexistente e raça incompatível.
-
----
-
 ## Swagger / OpenAPI
 
 A documentação Swagger está habilitada no projeto.
@@ -503,34 +440,3 @@ O Swagger permite testar todos os endpoints diretamente pelo navegador.
 Além disso, os controllers possuem comentários XML para melhorar a descrição de cada rota na interface do Swagger.
 
 ---
-
-## Checklist dos requisitos atendidos
-
-* [x] API RESTful em ASP.NET Core.
-* [x] CRUD completo de tutores.
-* [x] CRUD completo de pets.
-* [x] CRUD completo de lembretes.
-* [x] Rotas parametrizadas por tutor.
-* [x] Rotas parametrizadas por pet.
-* [x] Consulta de clínicas.
-* [x] Afiliação opcional com clínica.
-* [x] Consulta de espécies.
-* [x] Consulta de raças.
-* [x] Timeline mensal do pet.
-* [x] Swagger/OpenAPI.
-* [x] Entity Framework Core.
-* [x] DbContext.
-* [x] Migrations.
-* [x] Integração com Oracle.
-* [x] Separação em Controllers e Services.
-* [x] Retornos HTTP adequados.
-
----
-
-## Observações finais
-
-Este projeto foi desenvolvido com foco na parte do tutor dentro do ecossistema PetJourney / Clyvo Vet.
-
-A API evita duplicar funcionalidades do módulo administrativo/clínico, mantendo o escopo adequado para a entrega da disciplina de .NET.
-
-A clínica é usada apenas como consulta e vínculo opcional, enquanto a gestão completa da clínica pertence a outro módulo do sistema.
