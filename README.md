@@ -2,6 +2,15 @@
 
 API REST desenvolvida para a área do tutor no sistema **PetJourney**.
 
+## 👥 Equipe
+
+| Nome | RM |
+|------|------|
+| Lucas Viana | 563254 |
+| Deryk de Souza | 563412 |
+| Vinicius Paschoeto | 563089 |
+
+**Turma:** 2TDSPX
 ---
 
 ## Objetivo do projeto
