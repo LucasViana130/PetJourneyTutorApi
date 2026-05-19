@@ -22,7 +22,7 @@ builder.Services.AddSwaggerGen(options =>
     {
         Title = "PetJourney Tutor API",
         Version = "v1",
-        Description = "API RESTful para a jornada do tutor no sistema PetJourney/Clyvo Vet."
+        Description = "API RESTful para a jornada do tutor no sistema PetJourneyt."
     });
 });
 
