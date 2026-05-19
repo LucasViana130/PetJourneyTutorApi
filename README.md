@@ -240,6 +240,8 @@ https://localhost:7050/swagger
 
 A porta pode variar conforme a configuração local do Visual Studio.
 
+### 5. Não esqueça de rodar o arquivo seed-oracle.sqlaa(Para popular o banco) após fazer as migrations
+
 ---
 
 ## Migrations
