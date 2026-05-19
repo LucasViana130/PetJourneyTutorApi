@@ -27,9 +27,9 @@ public class TutorService
 
     public async Task<List<Pet>?> GetPetsByTutorAsync(int id)
     {
-        var tutorExists = await _context.Tutors.AnyAsync(t => t.IdTutor == id);
+        var tutorCount = await _context.Tutors.CountAsync(t => t.IdTutor == id);
 
-        if (!tutorExists)
+        if (tutorCount == 0)
             return null;
 
         return await _context.Pets
@@ -40,9 +40,9 @@ public class TutorService
 
     public async Task<List<Clinic>?> GetTutorClinicsAsync(int tutorId)
     {
-        var tutorExists = await _context.Tutors.AnyAsync(t => t.IdTutor == tutorId);
+        var tutorCount = await _context.Tutors.CountAsync(t => t.IdTutor == tutorId);
 
-        if (!tutorExists)
+        if (tutorCount == 0)
             return null;
 
         var clinicIds = await _context.Pets
@@ -59,9 +59,9 @@ public class TutorService
 
     public async Task<(bool Success, string? Error, Tutor? Tutor)> CreateAsync(Tutor tutor)
     {
-        var emailAlreadyExists = await _context.Tutors.AnyAsync(t => t.DsEmail == tutor.DsEmail);
+        var emailCount = await _context.Tutors.CountAsync(t => t.DsEmail == tutor.DsEmail);
 
-        if (emailAlreadyExists)
+        if (emailCount > 0)
             return (false, "Já existe um tutor cadastrado com este e-mail.", null);
 
         tutor.DtCadastro = DateTime.Now;
@@ -85,41 +85,41 @@ public class TutorService
         if (currentTutor == null)
             return (false, "Tutor não encontrado.");
 
-        var emailAlreadyExists = await _context.Tutors
-            .AnyAsync(t => t.DsEmail == tutor.DsEmail && t.IdTutor != id);
+        var emailCount = await _context.Tutors
+            .CountAsync(t => t.DsEmail == tutor.DsEmail && t.IdTutor != id);
 
-        if (emailAlreadyExists)
+        if (emailCount > 0)
             return (false, "Já existe outro tutor cadastrado com este e-mail.");
 
         currentTutor.NmTutor = tutor.NmTutor;
         currentTutor.DsEmail = tutor.DsEmail;
         currentTutor.NrTelefone = tutor.NrTelefone;
-        currentTutor.DsPlano = string.IsNullOrWhiteSpace(tutor.DsPlano) ? currentTutor.DsPlano : tutor.DsPlano;
+        currentTutor.DsPlano = string.IsNullOrWhiteSpace(tutor.DsPlano)
+            ? currentTutor.DsPlano
+            : tutor.DsPlano;
 
         await _context.SaveChangesAsync();
 
         return (true, null);
     }
 
-    // Afiliar tutor à clínica sem alterar a tabela TBTUTOR.
-    // O vínculo fica salvo nos pets do tutor, usando a coluna TBPET.IDCLINICA já existente no banco.
     public async Task<(bool Success, string? Error)> LinkToClinicAsync(int tutorId, int clinicaId)
     {
-        var tutorExists = await _context.Tutors.AnyAsync(t => t.IdTutor == tutorId);
+        var tutorCount = await _context.Tutors.CountAsync(t => t.IdTutor == tutorId);
 
-        if (!tutorExists)
+        if (tutorCount == 0)
             return (false, "Tutor não encontrado.");
 
-        var clinicExists = await _context.Clinics.AnyAsync(c => c.IdClinica == clinicaId);
+        var clinicCount = await _context.Clinics.CountAsync(c => c.IdClinica == clinicaId);
 
-        if (!clinicExists)
+        if (clinicCount == 0)
             return (false, "Clínica não encontrada.");
 
         var pets = await _context.Pets
             .Where(p => p.IdTutor == tutorId)
             .ToListAsync();
 
-        if (!pets.Any())
+        if (pets.Count == 0)
             return (false, "Cadastre pelo menos um pet antes de se afiliar a uma clínica.");
 
         foreach (var pet in pets)
@@ -132,9 +132,9 @@ public class TutorService
 
     public async Task<(bool Success, string? Error)> UnlinkFromClinicAsync(int tutorId)
     {
-        var tutorExists = await _context.Tutors.AnyAsync(t => t.IdTutor == tutorId);
+        var tutorCount = await _context.Tutors.CountAsync(t => t.IdTutor == tutorId);
 
-        if (!tutorExists)
+        if (tutorCount == 0)
             return (false, "Tutor não encontrado.");
 
         var pets = await _context.Pets
@@ -156,9 +156,9 @@ public class TutorService
         if (tutor == null)
             return (false, "Tutor não encontrado.");
 
-        var hasPets = await _context.Pets.AnyAsync(p => p.IdTutor == id);
+        var petCount = await _context.Pets.CountAsync(p => p.IdTutor == id);
 
-        if (hasPets)
+        if (petCount > 0)
             return (false, "Não é possível remover um tutor que possui pets cadastrados.");
 
         _context.Tutors.Remove(tutor);

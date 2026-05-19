@@ -34,7 +34,6 @@ public class Pet
     [Column("IDRACA")]
     public int? IdRaca { get; set; }
 
-    // A clínica é opcional. Se estiver nulo, o tutor usa o sistema sem vínculo com clínica.
     [Column("IDCLINICA")]
     public int? IdClinica { get; set; }
 }

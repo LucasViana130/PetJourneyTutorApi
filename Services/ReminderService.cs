@@ -27,9 +27,9 @@ public class ReminderService
 
     public async Task<(bool Success, string? Error, Reminder? Reminder)> CreateAsync(Reminder reminder)
     {
-        var petExists = await _context.Pets.AnyAsync(p => p.IdPet == reminder.IdPet);
+        var petCount = await _context.Pets.CountAsync(p => p.IdPet == reminder.IdPet);
 
-        if (!petExists)
+        if (petCount == 0)
             return (false, "O pet informado não existe.", null);
 
         if (reminder.DtLembrete.Date < DateTime.Today)
@@ -49,17 +49,23 @@ public class ReminderService
         if (id != reminder.IdLembrete)
             return (false, "O id da rota é diferente do id enviado no corpo da requisição.");
 
-        var exists = await _context.Reminders.AnyAsync(r => r.IdLembrete == id);
+        var currentReminder = await _context.Reminders.FindAsync(id);
 
-        if (!exists)
+        if (currentReminder == null)
             return (false, "Lembrete não encontrado.");
 
-        var petExists = await _context.Pets.AnyAsync(p => p.IdPet == reminder.IdPet);
+        var petCount = await _context.Pets.CountAsync(p => p.IdPet == reminder.IdPet);
 
-        if (!petExists)
+        if (petCount == 0)
             return (false, "O pet informado não existe.");
 
-        _context.Entry(reminder).State = EntityState.Modified;
+        currentReminder.IdPet = reminder.IdPet;
+        currentReminder.DsTipo = reminder.DsTipo;
+        currentReminder.DsDescricao = reminder.DsDescricao;
+        currentReminder.DtLembrete = reminder.DtLembrete;
+        currentReminder.DtNotificado = reminder.DtNotificado;
+        currentReminder.DsStatus = reminder.DsStatus;
+
         await _context.SaveChangesAsync();
 
         return (true, null);

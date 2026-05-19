@@ -27,9 +27,9 @@ public class PetService
 
     public async Task<List<Reminder>?> GetRemindersByPetAsync(int petId)
     {
-        var petExists = await _context.Pets.AnyAsync(p => p.IdPet == petId);
+        var petCount = await _context.Pets.CountAsync(p => p.IdPet == petId);
 
-        if (!petExists)
+        if (petCount == 0)
             return null;
 
         return await _context.Reminders
@@ -46,13 +46,15 @@ public class PetService
         if (ano < 2000)
             return (false, "Informe um ano válido.", null);
 
-        var petExists = await _context.Pets.AnyAsync(p => p.IdPet == petId);
+        var petCount = await _context.Pets.CountAsync(p => p.IdPet == petId);
 
-        if (!petExists)
+        if (petCount == 0)
             return (false, "Pet não encontrado.", null);
 
         var timeline = await _context.Reminders
-            .Where(r => r.IdPet == petId && r.DtLembrete.Month == mes && r.DtLembrete.Year == ano)
+            .Where(r => r.IdPet == petId &&
+                        r.DtLembrete.Month == mes &&
+                        r.DtLembrete.Year == ano)
             .OrderBy(r => r.DtLembrete)
             .Select(r => new TimelineItem
             {
@@ -68,16 +70,14 @@ public class PetService
 
     public async Task<(bool Success, string? Error, Pet? Pet)> CreateAsync(Pet pet)
     {
-        var tutorCount = await _context.Tutors
-            .CountAsync(t => t.IdTutor == pet.IdTutor);
+        var tutorCount = await _context.Tutors.CountAsync(t => t.IdTutor == pet.IdTutor);
 
         if (tutorCount == 0)
             return (false, "O tutor informado não existe.", null);
 
         if (pet.IdClinica != null)
         {
-            var clinicCount = await _context.Clinics
-                .CountAsync(c => c.IdClinica == pet.IdClinica);
+            var clinicCount = await _context.Clinics.CountAsync(c => c.IdClinica == pet.IdClinica);
 
             if (clinicCount == 0)
                 return (false, "A clínica informada não existe.", null);
@@ -85,7 +85,7 @@ public class PetService
 
         _context.Pets.Add(pet);
         await _context.SaveChangesAsync();
-        
+
         return (true, null, pet);
     }
 
@@ -99,16 +99,16 @@ public class PetService
         if (currentPet == null)
             return (false, "Pet não encontrado.");
 
-        var tutorExists = await _context.Tutors.AnyAsync(t => t.IdTutor == pet.IdTutor);
+        var tutorCount = await _context.Tutors.CountAsync(t => t.IdTutor == pet.IdTutor);
 
-        if (!tutorExists)
+        if (tutorCount == 0)
             return (false, "O tutor informado não existe.");
 
         if (pet.IdClinica != null)
         {
-            var clinicExists = await _context.Clinics.AnyAsync(c => c.IdClinica == pet.IdClinica);
+            var clinicCount = await _context.Clinics.CountAsync(c => c.IdClinica == pet.IdClinica);
 
-            if (!clinicExists)
+            if (clinicCount == 0)
                 return (false, "A clínica informada não existe.");
         }
 
@@ -132,9 +132,9 @@ public class PetService
         if (pet == null)
             return (false, "Pet não encontrado.");
 
-        var hasReminders = await _context.Reminders.AnyAsync(r => r.IdPet == id);
+        var reminderCount = await _context.Reminders.CountAsync(r => r.IdPet == id);
 
-        if (hasReminders)
+        if (reminderCount > 0)
             return (false, "Não é possível remover um pet que possui lembretes cadastrados.");
 
         _context.Pets.Remove(pet);
