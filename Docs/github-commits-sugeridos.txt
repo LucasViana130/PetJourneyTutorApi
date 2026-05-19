@@ -1,7 +1,0 @@
-git init
-git add .
-git commit -m "Create ASP.NET Core Web API project"
-git commit -m "Add tutor pet reminder and clinic models"
-git commit -m "Configure Oracle DbContext"
-git commit -m "Add CRUD controllers and custom routes"
-git commit -m "Add Swagger documentation and README"

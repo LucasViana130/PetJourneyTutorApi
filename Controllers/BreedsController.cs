@@ -21,7 +21,7 @@ public class BreedsController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var breeds = await _context.Breeds
+                var breeds = await _context.Breeds
             .OrderBy(r => r.NmRaca)
             .ToListAsync();
 
