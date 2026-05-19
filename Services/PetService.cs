@@ -68,22 +68,24 @@ public class PetService
 
     public async Task<(bool Success, string? Error, Pet? Pet)> CreateAsync(Pet pet)
     {
-        var tutorExists = await _context.Tutors.AnyAsync(t => t.IdTutor == pet.IdTutor);
+        var tutorCount = await _context.Tutors
+            .CountAsync(t => t.IdTutor == pet.IdTutor);
 
-        if (!tutorExists)
+        if (tutorCount == 0)
             return (false, "O tutor informado não existe.", null);
 
         if (pet.IdClinica != null)
         {
-            var clinicExists = await _context.Clinics.AnyAsync(c => c.IdClinica == pet.IdClinica);
+            var clinicCount = await _context.Clinics
+                .CountAsync(c => c.IdClinica == pet.IdClinica);
 
-            if (!clinicExists)
+            if (clinicCount == 0)
                 return (false, "A clínica informada não existe.", null);
         }
 
         _context.Pets.Add(pet);
         await _context.SaveChangesAsync();
-
+        
         return (true, null, pet);
     }
 
