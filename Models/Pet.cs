@@ -8,10 +8,9 @@ public class Pet
 {
     [Key]
     [Column("IDPET")]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int IdPet { get; set; }
 
-    [Required(ErrorMessage = "O nome do pet é obrigatório.")]
+    [Required]
     [MaxLength(100)]
     [Column("NMPET")]
     public string NmPet { get; set; } = string.Empty;
@@ -19,17 +18,18 @@ public class Pet
     [Column("DTNASCIMENTO")]
     public DateTime? DtNascimento { get; set; }
 
-    [Required(ErrorMessage = "O sexo do pet é obrigatório.")]
+    [Required]
     [MaxLength(1)]
     [Column("DSSEXO")]
     public string DsSexo { get; set; } = string.Empty;
 
-    [Required(ErrorMessage = "O tutor do pet é obrigatório.")]
+    [Required]
     [Column("IDTUTOR")]
     public int IdTutor { get; set; }
 
+    [Required]
     [Column("IDESPECIE")]
-    public int? IdEspecie { get; set; }
+    public int IdEspecie { get; set; }
 
     [Column("IDRACA")]
     public int? IdRaca { get; set; }

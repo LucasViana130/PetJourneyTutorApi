@@ -75,6 +75,20 @@ public class PetService
         if (tutorCount == 0)
             return (false, "O tutor informado não existe.", null);
 
+        var speciesCount = await _context.Species.CountAsync(e => e.IdEspecie == pet.IdEspecie);
+
+        if (speciesCount == 0)
+            return (false, "A espécie informada não existe.", null);
+
+        if (pet.IdRaca != null)
+        {
+            var breedCount = await _context.Breeds
+                .CountAsync(r => r.IdRaca == pet.IdRaca && r.IdEspecie == pet.IdEspecie);
+
+            if (breedCount == 0)
+                return (false, "A raça informada não existe ou não pertence à espécie escolhida.", null);
+        }
+
         if (pet.IdClinica != null)
         {
             var clinicCount = await _context.Clinics.CountAsync(c => c.IdClinica == pet.IdClinica);
@@ -103,6 +117,20 @@ public class PetService
 
         if (tutorCount == 0)
             return (false, "O tutor informado não existe.");
+
+        var speciesCount = await _context.Species.CountAsync(e => e.IdEspecie == pet.IdEspecie);
+
+        if (speciesCount == 0)
+            return (false, "A espécie informada não existe.");
+
+        if (pet.IdRaca != null)
+        {
+            var breedCount = await _context.Breeds
+                .CountAsync(r => r.IdRaca == pet.IdRaca && r.IdEspecie == pet.IdEspecie);
+
+            if (breedCount == 0)
+                return (false, "A raça informada não existe ou não pertence à espécie escolhida.");
+        }
 
         if (pet.IdClinica != null)
         {
